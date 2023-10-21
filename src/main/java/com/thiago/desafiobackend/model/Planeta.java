@@ -9,12 +9,12 @@ import java.util.UUID;
 @Entity
 public class Planeta {
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
-    private UUID id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id;
     private String nome;
     private String clima;
     private String terreno;
-    @Column(name = "aparições-filmes")
+    @Column(name = "aparicoesFilmes")
     private int qtdAparicoesFilme;
 
     public Planeta() {

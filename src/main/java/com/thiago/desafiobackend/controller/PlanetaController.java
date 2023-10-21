@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.thiago.desafiobackend.dto.PlanetaDto;
 import com.thiago.desafiobackend.model.Planeta;
 import com.thiago.desafiobackend.repository.PlanetaRepository;
+import com.thiago.desafiobackend.service.ServicePlaneta;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -18,6 +19,7 @@ import java.net.URLConnection;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/planetas")
@@ -25,6 +27,9 @@ public class PlanetaController {
 
     @Autowired
     PlanetaRepository repository;
+
+    @Autowired
+    ServicePlaneta servicePlaneta;
 
     @PostMapping("/add")
     public ResponseEntity<?> createPlaneta(@RequestBody PlanetaDto dados, @RequestParam int planetId) throws IOException {
@@ -73,14 +78,26 @@ public class PlanetaController {
     }
 
     @GetMapping
-    public List<PlanetaDto> getAll() {
+    public ResponseEntity<List<PlanetaDto>> getAll() {
         /*
          * convertendo de Planeta para PlanetaDto
          */
         List<PlanetaDto> dtoList = repository.findAll().stream().map((p) -> new PlanetaDto(
                 p.getNome(), p.getClima(), p.getTerreno()
         )).toList();
-        return dtoList;
+        return ResponseEntity.ok().body(dtoList);
     }
 
+    @GetMapping("/id/{id}")
+    public ResponseEntity<Optional<Planeta>> getById(@PathVariable(value = "id") int id){
+        return ResponseEntity.ok(servicePlaneta.findById(id));
+    }
+
+    @DeleteMapping("/deletar/id/{id}")
+    public ResponseEntity<?> deletePlaneta(@PathVariable(value = "id") int id){
+
+        var entity = servicePlaneta.findById(id);
+        repository.delete(entity.get());
+        return ResponseEntity.ok("Planeta deletado com sucesso");
+    }
 }
