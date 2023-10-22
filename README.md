@@ -59,5 +59,5 @@ planeta.
 
 - O projeto foi documentado usando o Swagger, com isso basta acessar **http://localhost:8080/swagger-ui.html#/** para
   ter acesso aos endpoints.
-- Para ver em JSON use **http://localhost:8080/v3/api-docs** para ver documentação em JSON.
+- Use **http://localhost:8080/v3/api-docs** para ver documentação em JSON.
 
