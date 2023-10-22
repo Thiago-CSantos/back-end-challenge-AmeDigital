@@ -19,7 +19,6 @@ import java.net.URLConnection;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-import java.util.Optional;
 
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
@@ -86,10 +85,10 @@ public class PlanetaController {
          * convertendo de Planeta para PlanetaDto
          */
         List<PlanetaDto> dtoList = repository.findAll().stream().map((p) -> new PlanetaDto(
-                p.getId(),p.getNome(), p.getClima(), p.getTerreno()
+                p.getId(), p.getNome(), p.getClima(), p.getTerreno()
         )).toList();
 
-        for(PlanetaDto p : dtoList){
+        for (PlanetaDto p : dtoList) {
             p.add(linkTo(methodOn(PlanetaController.class).getById(p.getChave_id())).withSelfRel());
         }
 

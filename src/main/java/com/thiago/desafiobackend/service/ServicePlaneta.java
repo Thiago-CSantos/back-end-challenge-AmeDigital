@@ -2,13 +2,10 @@ package com.thiago.desafiobackend.service;
 
 import com.thiago.desafiobackend.controller.PlanetaController;
 import com.thiago.desafiobackend.dto.PlanetaDto;
-import com.thiago.desafiobackend.model.Planeta;
 import com.thiago.desafiobackend.repository.PlanetaRepository;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.util.Optional;
 
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;

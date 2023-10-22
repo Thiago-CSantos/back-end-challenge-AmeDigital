@@ -1,7 +1,6 @@
 package com.thiago.desafiobackend.dto;
 
 import com.thiago.desafiobackend.model.Planeta;
-import org.springframework.hateoas.Link;
 import org.springframework.hateoas.RepresentationModel;
 
 import java.util.Objects;
@@ -22,7 +21,7 @@ public class PlanetaDto extends RepresentationModel<Planeta> {
     }
 
     public PlanetaDto(Planeta entity) {
-        this.chave_id =entity.getId();
+        this.chave_id = entity.getId();
         this.nome = entity.getNome();
         this.clima = entity.getClima();
         this.terreno = entity.getTerreno();
