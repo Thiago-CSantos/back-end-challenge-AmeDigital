@@ -60,7 +60,7 @@ public class PlanetaController {
         // Se o 'name' recebido do nameNode for igual
         // então true
         if (Objects.equals(nameNode.asText(), dados.nome())) {
-            // colocando o campo 'films' em uma lista, o retorno de jsonNode
+            // colocando o campo 'films' numa lista, o retorno de jsonNode
             JsonNode filmsNode = jsonNode.get("films");
             if (filmsNode != null && filmsNode.isArray()) {
                 for (JsonNode filmNode : filmsNode) {
