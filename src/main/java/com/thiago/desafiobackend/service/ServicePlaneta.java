@@ -1,23 +1,32 @@
 package com.thiago.desafiobackend.service;
 
+import com.thiago.desafiobackend.controller.PlanetaController;
+import com.thiago.desafiobackend.dto.PlanetaDto;
 import com.thiago.desafiobackend.model.Planeta;
 import com.thiago.desafiobackend.repository.PlanetaRepository;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
+
 @Service
 public class ServicePlaneta {
 
-     @Autowired
-     PlanetaRepository repository;
+    @Autowired
+    PlanetaRepository repository;
 
-     public Optional<Planeta> findById(int id){
+    public PlanetaDto findById(int id) {
+        var entity = repository.findById(id).orElseThrow();
+        PlanetaDto planetaDto = new PlanetaDto(entity);
 
-       return repository.findById(id);
+        BeanUtils.copyProperties(planetaDto, entity);
+        planetaDto.add(linkTo(methodOn(PlanetaController.class).getById(planetaDto.getChave_id())).withSelfRel());
 
+        return planetaDto;
     }
 
 }

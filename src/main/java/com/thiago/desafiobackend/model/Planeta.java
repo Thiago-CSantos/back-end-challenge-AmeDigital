@@ -2,12 +2,12 @@ package com.thiago.desafiobackend.model;
 
 import com.thiago.desafiobackend.dto.PlanetaDto;
 import jakarta.persistence.*;
+import org.springframework.hateoas.RepresentationModel;
 
 import java.util.Objects;
-import java.util.UUID;
 
 @Entity
-public class Planeta {
+public class Planeta extends RepresentationModel<Planeta> {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
@@ -27,10 +27,19 @@ public class Planeta {
     }
 
     public Planeta(PlanetaDto dados, int qtdAparicoesFilme) {
-        this.nome = dados.nome();
-        this.clima = dados.clima();
-        this.terreno = dados.terreno();
+        this.id = dados.getChave_id();
+        this.nome = dados.getNome();
+        this.clima = dados.getClima();
+        this.terreno = dados.getTerreno();
         this.qtdAparicoesFilme = qtdAparicoesFilme;
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     public String getNome() {

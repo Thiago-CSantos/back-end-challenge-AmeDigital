@@ -21,6 +21,9 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
+
 @RestController
 @RequestMapping("/planetas")
 public class PlanetaController {
@@ -59,7 +62,7 @@ public class PlanetaController {
 
         // Se o 'name' recebido do nameNode for igual
         // então true
-        if (Objects.equals(nameNode.asText(), dados.nome())) {
+        if (Objects.equals(nameNode.asText(), dados.getNome())) {
             // colocando o campo 'films' numa lista, o retorno de jsonNode
             JsonNode filmsNode = jsonNode.get("films");
             if (filmsNode != null && filmsNode.isArray()) {
@@ -83,21 +86,27 @@ public class PlanetaController {
          * convertendo de Planeta para PlanetaDto
          */
         List<PlanetaDto> dtoList = repository.findAll().stream().map((p) -> new PlanetaDto(
-                p.getNome(), p.getClima(), p.getTerreno()
+                p.getId(),p.getNome(), p.getClima(), p.getTerreno()
         )).toList();
+
+        for(PlanetaDto p : dtoList){
+            p.add(linkTo(methodOn(PlanetaController.class).getById(p.getChave_id())).withSelfRel());
+        }
+
         return ResponseEntity.ok().body(dtoList);
     }
 
     @GetMapping("/id/{id}")
-    public ResponseEntity<Optional<Planeta>> getById(@PathVariable(value = "id") int id){
+    public ResponseEntity<PlanetaDto> getById(@PathVariable(value = "id") int id) {
+
         return ResponseEntity.ok(servicePlaneta.findById(id));
     }
 
     @DeleteMapping("/deletar/id/{id}")
-    public ResponseEntity<?> deletePlaneta(@PathVariable(value = "id") int id){
+    public ResponseEntity<?> deletePlaneta(@PathVariable(value = "id") int id) {
 
-        var entity = servicePlaneta.findById(id);
-        repository.delete(entity.get());
+        var entity = repository.findById(id).orElseThrow();
+        repository.delete(entity);
         return ResponseEntity.ok("Planeta deletado com sucesso");
     }
 }
