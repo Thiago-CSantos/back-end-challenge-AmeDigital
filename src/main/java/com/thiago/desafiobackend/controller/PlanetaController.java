@@ -7,6 +7,7 @@ import com.thiago.desafiobackend.model.Planeta;
 import com.thiago.desafiobackend.repository.PlanetaRepository;
 import com.thiago.desafiobackend.service.ServicePlaneta;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -74,9 +75,9 @@ public class PlanetaController {
             return ResponseEntity.ok().body(repository.save(planeta));
         } else {
             System.out.println("Nome invalido");
+            return ResponseEntity.status(HttpStatus.NOT_IMPLEMENTED).body("Nome invalido, o 'planetId' deve coincidir" +
+                    " com o da API de terceiros, exemblo: https://swapi.dev/api/planets/8/ ");
         }
-
-        return ResponseEntity.notFound().build();
     }
 
     @GetMapping
